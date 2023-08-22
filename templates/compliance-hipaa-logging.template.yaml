@@ -246,7 +246,7 @@ Resources:
   SNSSecurityAlarmTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
-      KmsMasterKeyId: !Ref SNSSecurityAlarmTopicKMS.KeyId
+      KmsMasterKeyId: !Ref SNSSecurityAlarmTopicKMS
       Subscription:
         - Endpoint: !Ref SNSAlarmEmail
           Protocol: email
