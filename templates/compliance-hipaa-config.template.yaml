@@ -89,6 +89,11 @@ Resources:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
               SSEAlgorithm: AES256
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
       Tags:
         - Key: Name
           Value: AWS Config Logging Bucket
@@ -108,7 +113,7 @@ Resources:
             Principal:
               Service: config.amazonaws.com
             Action: 's3:GetBucketAcl'
-            Resource: !GetAtt 
+            Resource: !GetAtt
               - AWSConfigLoggingBucket
               - Arn
           - Sid: AWSConfigBucketDelivery
@@ -116,9 +121,9 @@ Resources:
             Principal:
               Service: config.amazonaws.com
             Action: 's3:PutObject'
-            Resource: !Join 
+            Resource: !Join
               - ''
-              - - !GetAtt 
+              - - !GetAtt
                   - AWSConfigLoggingBucket
                   - Arn
                 - /*
