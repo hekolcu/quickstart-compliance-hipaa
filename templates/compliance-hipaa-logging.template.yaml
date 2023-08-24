@@ -129,6 +129,16 @@ Resources:
             Condition:
               StringNotEquals:
                 's3:x-amz-server-side-encryption': AES256
+          - Sid: AWSLoggingBucketTransport
+            Effect: Deny
+            Principal: "*"
+            Action: 's3:*'
+            Resource:
+              - !GetAtt 'AWSLoggingBucket.Arn'
+              - !Sub '${AWSLoggingBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
   AWSCloudTrailBucket:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
@@ -184,6 +194,16 @@ Resources:
             Condition:
               StringEquals:
                 's3:x-amz-acl': bucket-owner-full-control
+              - Sid: AAWSCloudTrailBucketTransport
+                Effect: Deny
+                Principal: "*"
+                Action: 's3:*'
+                Resource:
+                  - !GetAtt 'AWSCloudTrailBucket.Arn'
+                  - !Sub '${AWSCloudTrailBucket.Arn}/*'
+                Condition:
+                  Bool:
+                    'aws:SecureTransport': false
           - Sid: DenyUnEncryptedObjectUploads
             Effect: Deny
             Principal: '*'
