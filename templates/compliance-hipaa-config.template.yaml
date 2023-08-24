@@ -130,6 +130,16 @@ Resources:
             Condition:
               StringEquals:
                 's3:x-amz-acl': bucket-owner-full-control
+          - Sid: AWSConfigBucketTransport
+            Effect: Deny
+            Principal: "*"
+            Action: 's3:*'
+            Resource:
+              - !GetAtt 'AWSConfigLoggingBucket.Arn'
+              - !Sub '${AWSConfigLoggingBucket.Arn}/*'
+            Condition:
+              Bool:
+                'aws:SecureTransport': false
   AWSConfigDeliveryChannel:
     Type: 'AWS::Config::DeliveryChannel'
     Condition: CreateConfigDeliveryChannelYes
