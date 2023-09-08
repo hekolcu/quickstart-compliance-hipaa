@@ -55,6 +55,8 @@ Resources:
     Type: 'AWS::S3::Bucket'
     DeletionPolicy: Retain
     Properties:
+      VersioningConfiguration:
+        Status: Enabled
       AccessControl: LogDeliveryWrite
       BucketEncryption:
         ServerSideEncryptionConfiguration:
@@ -81,8 +83,6 @@ Resources:
           Value: AWS Logging Bucket
         - Key: Purpose
           Value: Security
-      VersioningConfiguration:
-        Status: Enabled
   AWSLoggingBucketPolicy:
     Type: 'AWS::S3::BucketPolicy'
     DeletionPolicy: Retain
@@ -263,6 +263,17 @@ Resources:
               AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
             Action: kms:*
             Resource: '*'
+          - Sid: Enable usage for SNS
+            Effect: Allow
+            Principal:
+              AWS: sns.amazonaws.com
+            Action:
+              - 'kms:Decrypt'
+              - 'kms:GenerateDataKey'
+            Resource: '*'
+            Condition:
+              ArnLike:
+                aws:SourceArn: !Sub aws:${AWS::PARTITION}:sns:
   SNSSecurityAlarmTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
