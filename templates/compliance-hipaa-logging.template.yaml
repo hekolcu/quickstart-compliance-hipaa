@@ -273,7 +273,7 @@ Resources:
             Resource: '*'
             Condition:
               ArnLike:
-                aws:SourceArn: !Sub aws:${AWS::PARTITION}:sns:
+                aws:SourceArn: arn:aws:sns::::
   SNSSecurityAlarmTopic:
     Type: 'AWS::SNS::Topic'
     Properties:
