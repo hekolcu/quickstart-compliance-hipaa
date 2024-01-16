@@ -261,7 +261,7 @@ Resources:
             Effect: Allow
             Principal:
               AWS: !Sub arn:${AWS::Partition}:iam::${AWS::AccountId}:root
-            Action: kms:*
+            Action: 'kms:*'
             Resource: '*'
           - Sid: Enable usage for SNS
             Effect: Allow
